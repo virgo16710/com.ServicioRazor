@@ -1,4 +1,4 @@
-use[valuetech];
+use[MiBD];
 GO
 IF OBJECT_ID('GETREGIONES', 'P') IS NOT NULL
 BEGIN
