@@ -1,0 +1,41 @@
+﻿@using (Html.BeginForm("Post","Home", FormMethod.Post, new { @class = "form-control" }))
+{
+    <h2>Comuna</h2>
+    <hr />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="my-3 p-3 bg-white rounded box-shadow">
+        <div class="form-floating" hidden>
+            @Html.TextBox("Ocomuna.IdComuna", null, new { @class = "form-control", @required = "required", @id = "TextIdComuna" })
+            @Html.Label("")
+            @Html.ValidationMessage("Ocomuna.IdComuna", null, new { @class = "text-danger" })
+        </div>
+        <div class="form-floating">
+            @Html.TextBox("Ocomuna.Comuna", null, new { @class = "form-control", @required = "required", @id = "TextNomComuna" })
+            @Html.Label("Ingrese Comuna")
+            @Html.ValidationMessage("Ocomuna.Comuna", null, new { @class = "text-danger" })
+        </div>
+        <div class="form-floating">
+            @Html.TextBox("Ocomuna.densidad", null, new { @class = "form-control", @required = "required", @id = "TextDensidad" })
+            @Html.Label("Ingrese Densidad")
+            @Html.ValidationMessage("Ocomuna.densidad", null, new { @class = "text-danger" })
+        </div>
+        <div class="form-floating">
+            @Html.TextBox("Ocomuna.superficie", null, new { @class = "form-control", @required = "required", @id = "TextSuperficie" })
+            @Html.Label("Ingrese Superficie")
+            @Html.ValidationMessage("Ocomuna.superficie", null, new { @class = "text-danger" })
+        </div>
+        <div class="form-floating">
+            @Html.TextBox("Ocomuna.poblacion", null, new { @class = "form-control", @required = "required", @id = "TextPoblacion" })
+            @Html.Label("Ingrese Poblacion")
+            @Html.ValidationMessage("Ocomuna.poblacion", null, new { @class = "text-danger" })
+        </div>
+        <div class="form-floating">
+            @Html.DropDownList("Ocomuna.IdRegion", new SelectList(Model.Regiones, "IdRegion", "Region", "Elegir Comuna"), new { @class = "form-control", @required = "required", @id = "TextIdRegion" })
+            @Html.Label("Ingrese Region")
+            @Html.ValidationMessage("Ocomuna.IdRegion", null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Agregar</button>
+    <button type="button" id="BtnClsAddCuentaBottom" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+    }

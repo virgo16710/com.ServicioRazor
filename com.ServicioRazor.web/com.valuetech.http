@@ -1,0 +1,6 @@
+@com.ServicioRazor_HostAddress = http://localhost:5121
+
+GET {{com.ServicioRazor_HostAddress}}/Region/
+Accept: application/json
+
+###

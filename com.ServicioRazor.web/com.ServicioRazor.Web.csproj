@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\com.ServicioRazor.api\com.ServicioRazor.api.csproj" />
+    <ProjectReference Include="..\com.ServicioRazor.modelos\com.ServicioRazor.modelos.csproj" />
+    <ProjectReference Include="..\com.valuetech.api\com.ServicioRazor.api.csproj" />
+    <ProjectReference Include="..\com.valuetech.modelos\com.ServicioRazor.modelos.csproj" />
+  </ItemGroup>
+
+</Project>
