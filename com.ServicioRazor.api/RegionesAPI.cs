@@ -6,12 +6,10 @@ namespace com.ServicioRazor.api
     
     public class RegionesAPI
     {
-        private string _conn;
         private IRegionRepository _regionRepository;
-        public RegionesAPI(string conection)
+        public RegionesAPI()
         {
-            _conn = conection;
-            _regionRepository = new RegionRepository(_conn);
+            _regionRepository = new RegionRepository();
         }
         
         public async Task<IEnumerable<com.ServicioRazor.modelos.Regiones>> GetRegiones() 

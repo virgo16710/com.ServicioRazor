@@ -10,9 +10,9 @@ namespace com.ServicioRazor.datos.Datos
     public class RegionRepository : IRegionRepository
     {
         private string _conn;
-        public RegionRepository(string conn)
+        public RegionRepository()
         {
-            _conn = conn;
+            _conn = Conection.GetConection();
         }
         public async Task<Regiones> Get(int id)
         {

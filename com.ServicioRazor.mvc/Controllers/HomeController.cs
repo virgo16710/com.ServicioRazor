@@ -9,10 +9,10 @@ namespace com.ServicioRazor.mvc.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private IRegionesRepository _regionesRepository;
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, HttpClient client)
         {
             _logger = logger;
-           _regionesRepository = new RegionesRepository();
+           _regionesRepository = new RegionesRepository(client);
         }
         /// <summary>
         /// Trae todas las regiones

@@ -2,47 +2,35 @@
 using Newtonsoft.Json;
 using System.Text;
 using System.Xml;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace com.ServicioRazor.mvc.Repositorio
 {
     public class RegionesRepository : IRegionesRepository
     {
-        public RegionesRepository()
+        private readonly HttpClient _client;
+        public RegionesRepository(HttpClient client)
         {
-               /*
-                * Para esta tarea solo utilizare el httpclient
-                * Utilizando solo los recursos creados en mi API como se solicito
-                */
+            _client = client;
         }
 
         public async Task<PresentComuna> GetComunas(int IdRegion)
         {
             try
             {
-                string url = "http://localhost:44673/Region/" + IdRegion+"/Comunas";
                 PresentComuna comunas = new PresentComuna();
                 comunas.Comunas = new List<PresentComuna.FormComuna>();
                 comunas.Ocomuna = new PresentComuna.FormComuna();
-                using (HttpClient client = new HttpClient())
+                List<Comunas>? comuna = await _client.GetFromJsonAsync<List<Comunas>>("Region/" + IdRegion + "/Comunas");
+                if (comuna != null)
                 {
-                    HttpResponseMessage response = await client.GetAsync(url);
-                    if (response.IsSuccessStatusCode)
+                    foreach (var item in comuna)
                     {
-                        string jsonresponse = await response.Content.ReadAsStringAsync();
-                        var dato = JsonConvert.DeserializeObject<List<Comunas>>(jsonresponse);
-                        foreach(var item in dato)
-                        {
-                            comunas.Comunas.Add(ProcesarComuna(item));
-                        }
-                        comunas.Regiones = await GetRegiones();
+                        comunas.Comunas.Add(ProcesarComuna(item));
                     }
-                    else
-                    {
-                        Console.WriteLine($"Error en la consulta: {response.StatusCode}");
-                        return null;
-                    }
-                    return comunas;
                 }
+                comunas.Regiones = await GetRegiones();
+                return comunas;
             }
             catch (Exception ex)
             {
@@ -59,19 +47,19 @@ namespace com.ServicioRazor.mvc.Repositorio
             e.IdRegion = item.IdRegion;
             e.IdComuna = item.IdComuna;
             e.Comuna = item.Comuna;
-            if (!String.IsNullOrEmpty(item.xml))
+            if (!System.String.IsNullOrEmpty(item.xml))
             {
                 try
                 {
                     string rawXml = item.xml;
-                    rawXml = rawXml.Replace("”", "\"").Replace("“", "\"").Replace(".",",").ToLower();
+                    rawXml = rawXml.Replace("”", "\"").Replace("“", "\"").Replace(".", ",").ToLower();
                     XmlDocument doc = new XmlDocument();
                     doc.LoadXml(rawXml);
                     e.superficie = double.Parse(doc.SelectSingleNode("//superficie")?.InnerText);
                     e.poblacion = long.Parse(doc.SelectSingleNode("//poblacion")?.InnerText);
                     e.densidad = double.Parse(doc.SelectSingleNode("//poblacion")?.Attributes["densidad"].Value);
                 }
-                catch(XmlException ex)
+                catch (XmlException ex)
                 {
                     Console.WriteLine(ex.Message);
                     return null;
@@ -111,20 +99,20 @@ namespace com.ServicioRazor.mvc.Repositorio
                     return region;
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                Console.WriteLine(ex.Message );
+                Console.WriteLine(ex.Message);
                 throw new Exception(ex.Message);
             }
         }
 
         public async Task<IEnumerable<Regiones>> GetRegiones()
         {
-            try 
+            try
             {
                 string url = "http://localhost:44673/region";
                 List<Regiones> regiones;
-                using (HttpClient client = new HttpClient()) 
+                using (HttpClient client = new HttpClient())
                 {
                     HttpResponseMessage response = await client.GetAsync(url);
                     if (response.IsSuccessStatusCode)
@@ -135,7 +123,7 @@ namespace com.ServicioRazor.mvc.Repositorio
                     else
                     {
                         Console.WriteLine($"Error en la consulta: {response.StatusCode}");
-                           return null;
+                        return null;
                     }
                     return regiones;
 
@@ -158,14 +146,14 @@ namespace com.ServicioRazor.mvc.Repositorio
                 {
                     Comunas Send = new Comunas()
                     {
-                      Comuna = comuna.Comuna,
-                      IdRegion = comuna.IdRegion,
-                      IdComuna = comuna.IdComuna,
-                      xml = RetornarXml(comuna)
+                        Comuna = comuna.Comuna,
+                        IdRegion = comuna.IdRegion,
+                        IdComuna = comuna.IdComuna,
+                        xml = RetornarXml(comuna)
                     };
                     var json = System.Text.Json.JsonSerializer.Serialize(Send);
                     var content = new StringContent(json, Encoding.UTF8, "application/json");
-                    HttpResponseMessage response = await client.PostAsync(url,content);
+                    HttpResponseMessage response = await client.PostAsync(url, content);
                     if (response.IsSuccessStatusCode)
                     {
                         return true;
@@ -189,7 +177,7 @@ namespace com.ServicioRazor.mvc.Repositorio
         {
             try
             {
-                string url = "http://localhost:44673/region/"+IdRegion+"/Comuna/"+IdComuna;
+                string url = "http://localhost:44673/region/" + IdRegion + "/Comuna/" + IdComuna;
                 PresentComuna.FormComuna regiones;
                 using (HttpClient client = new HttpClient())
                 {

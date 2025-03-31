@@ -13,13 +13,10 @@ namespace com.ServicioRazor.Web.Controllers
     [ApiController]
     public class RegionController : ControllerBase
     {
-        private string _conection;
-        private readonly IConfiguration _configuration;
         private RegionesAPI _regiones;
         public RegionController(IConfiguration configuration)
         {
-            _conection = configuration.GetConnectionString("DefaultConnection");
-            _regiones = new RegionesAPI(_conection);
+            _regiones = new RegionesAPI();
 
         }
         /// <summary>
