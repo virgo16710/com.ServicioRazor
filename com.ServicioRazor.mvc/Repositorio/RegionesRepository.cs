@@ -11,7 +11,7 @@ namespace com.ServicioRazor.mvc.Repositorio
         private readonly HttpClient _client;
         public RegionesRepository(HttpClient client)
         {
-            _client = client;
+            this._client = client;
         }
 
         public async Task<PresentComuna> GetComunas(int IdRegion)
@@ -21,7 +21,7 @@ namespace com.ServicioRazor.mvc.Repositorio
                 PresentComuna comunas = new PresentComuna();
                 comunas.Comunas = new List<PresentComuna.FormComuna>();
                 comunas.Ocomuna = new PresentComuna.FormComuna();
-                List<Comunas>? comuna = await _client.GetFromJsonAsync<List<Comunas>>("Region/" + IdRegion + "/Comunas");
+                var comuna = await _client.GetFromJsonAsync<IEnumerable<Comunas>>("Region/" + IdRegion + "/Comunas");
                 if (comuna != null)
                 {
                     foreach (var item in comuna)

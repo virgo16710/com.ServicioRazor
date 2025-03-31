@@ -4,7 +4,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddHttpClient<RegionesRepository>(client =>
+builder.Services.AddHttpClient<IRegionesRepository,RegionesRepository>(client =>
 {
     client.BaseAddress = new Uri("http://localhost:44673/");
 });
